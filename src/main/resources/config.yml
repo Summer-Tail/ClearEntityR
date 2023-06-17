@@ -1,0 +1,28 @@
+Limit:
+  max: 7000
+  min: 500
+
+Time: 3600
+
+Message:
+  time:
+    - 60
+    - 30
+    - 15
+    - 5
+  bossBar: true
+
+Rules:
+  mode: true
+  black:
+  white:
+  item:
+    enable: true
+
+#世界独立规则
+  custom:
+    #world:    #世界名称
+      #black:
+      #white:
+      #item:
+        #enable: true

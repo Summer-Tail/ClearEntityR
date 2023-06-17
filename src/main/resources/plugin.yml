@@ -1,0 +1,8 @@
+name: ClearEntityR
+version: '${project.version}'
+main: cn.konfan.clearentityr.ClearEntityR
+commands:
+  clearentity:
+    aliases:
+      - ce
+    description: ""
