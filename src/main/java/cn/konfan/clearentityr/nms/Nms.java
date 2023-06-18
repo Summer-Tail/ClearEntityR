@@ -29,7 +29,7 @@ public abstract class Nms {
      *
      * @return 方法名称
      */
-    public abstract String getCraftItemStackSaveMethodName(); //net.minecraft.world.item.ItemStack
+    public abstract String getItemStackSaveMethodName(); //net.minecraft.world.item.ItemStack
 
 
     /**
@@ -85,7 +85,7 @@ public abstract class Nms {
             Object id = null;
             try {
                 Class<?> NBTTagCompoundClass = Class.forName(getNbtPathName());
-                Method itemSave = nmsItemStack.getClass().getMethod(getCraftItemStackSaveMethodName(), NBTTagCompoundClass);
+                Method itemSave = nmsItemStack.getClass().getMethod(getItemStackSaveMethodName(), NBTTagCompoundClass);
                 Object nbt = itemSave.invoke(nmsItemStack, NBTTagCompoundClass.newInstance());
                 Method nbtGet = nbt.getClass().getMethod(getNBTMethodName(), String.class);
                 id = nbtGet.invoke(nbt, "id");

@@ -22,7 +22,7 @@ public class v1_19_R2 extends Nms{
     }
 
     @Override
-    public String getCraftItemStackSaveMethodName() {
+    public String getItemStackSaveMethodName() {
         return "b";
     }
 }
