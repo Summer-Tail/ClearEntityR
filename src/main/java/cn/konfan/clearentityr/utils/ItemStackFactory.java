@@ -65,7 +65,7 @@ public class ItemStackFactory {
     public ItemStackFactory setLore(List<String> loreList) {
         ItemMeta im = this.item.getItemMeta();
         if (im != null) {
-            im.setLore((List) loreList.stream().map(ClearEntityR::convertColor).collect(Collectors.toList()));
+            im.setLore(loreList.stream().map(ClearEntityR::convertColor).collect(Collectors.toList()));
             this.item.setItemMeta(im);
         }
 
@@ -75,9 +75,9 @@ public class ItemStackFactory {
     public ItemStackFactory addLore(String s) {
         ItemMeta im = this.item.getItemMeta();
         if (im != null) {
-            List<String> lore = im.getLore() != null ? im.getLore() : new ArrayList();
-            ((List) lore).add(ClearEntityR.convertColor(s));
-            im.setLore((List) lore);
+            List<String> lore = im.getLore() != null ? im.getLore() : new ArrayList<>();
+            lore.add(ClearEntityR.convertColor(s));
+            im.setLore(lore);
             this.item.setItemMeta(im);
         }
 
@@ -107,7 +107,7 @@ public class ItemStackFactory {
     public ItemStackFactory addFlag(ItemFlag flag) {
         ItemMeta im = this.item.getItemMeta();
         if (im != null) {
-            im.addItemFlags(new ItemFlag[]{flag});
+            im.addItemFlags(flag);
             this.item.setItemMeta(im);
         }
 
@@ -117,7 +117,7 @@ public class ItemStackFactory {
     public ItemStackFactory removeFlag(ItemFlag flag) {
         ItemMeta im = this.item.getItemMeta();
         if (im != null) {
-            im.removeItemFlags(new ItemFlag[]{flag});
+            im.removeItemFlags(flag);
             this.item.setItemMeta(im);
         }
 

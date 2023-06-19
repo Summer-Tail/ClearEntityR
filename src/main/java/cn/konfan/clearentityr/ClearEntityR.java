@@ -27,6 +27,7 @@ public final class ClearEntityR extends JavaPlugin {
             Nms.getSaveID(tempEntity);
             Nms.getItemID(new ItemStackFactory(Material.EGG).toItemStack());
             getLogger().info("Nms Version: " + version);
+            Rules.getEntityRules(tempEntity);
         } catch (Exception e) {
             getLogger().log(Level.WARNING, "Nms load fail you Version: " + version);
             e.printStackTrace();
@@ -42,7 +43,7 @@ public final class ClearEntityR extends JavaPlugin {
         Instance = this;
         // Plugin startup logic
         nmsInit();
-
+        this.saveDefaultConfig();
         getCommand("clearentity").setExecutor(new Ce());
 
     }

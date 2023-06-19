@@ -9,17 +9,19 @@ import java.util.Objects;
 
 public class LanguageConfig {
     public static YamlConfiguration langYaml;
-    private static File file = new File(ClearEntityR.getInstance().getDataFolder(), "messages.yml");
+    private static final File file = new File(ClearEntityR.getInstance().getDataFolder(), "messages.yml");
 
     static {
         if (!file.exists()) {
             try {
-                file.createNewFile();
+                if (file.createNewFile()) {
+                    langYaml = YamlConfiguration.loadConfiguration(file);
+                }
             } catch (IOException e) {
                 throw new RuntimeException("Cannot createNewFile messages.yml: " + e.getMessage(), e);
             }
         }
-        langYaml = YamlConfiguration.loadConfiguration(file);
+
     }
 
     public static void reload() {

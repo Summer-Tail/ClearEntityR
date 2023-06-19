@@ -1,9 +1,12 @@
 package cn.konfan.clearentityr.task;
 
 import cn.konfan.clearentityr.ClearEntityR;
+import cn.konfan.clearentityr.Rules;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Item;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,24 +14,39 @@ import java.util.List;
 
 public class EntityClear implements Runnable {
     private final List<Chunk> chunks;
+    private final ConfigurationSection config;
 
     public EntityClear() {
+        config = ClearEntityR.getInstance().getConfig();
         chunks = getLoadChunksList();
     }
 
     public EntityClear(List<Chunk> chunks) {
+        config = ClearEntityR.getInstance().getConfig();
         this.chunks = chunks;
     }
 
     @Override
     public void run() {
-        clear(chunks,100);
+        clear(chunks, config.getInt("Limit.chunk",100));
     }
 
+    /**
+     * 清理实体任务
+     * @param clearList 清理的区块列表
+     * @param num 清理的区块数量
+     */
     public void clear(List<Chunk> clearList, int num) {
-        for (int i = Math.min(clearList.size() - 1,num); i >= 0; i--) {
+
+        for (int i = Math.min(clearList.size() - 1, num); i >= 0; i--) {
             for (Entity entity : clearList.get(i).getEntities()) {
-                entity.remove();
+
+                if (entity instanceof Item && Rules.getItemRules(entity)) {
+                    entity.remove();
+                } else if (Rules.getEntityRules(entity)) {
+                    entity.remove();
+                }
+
             }
             clearList.remove(i);
         }
@@ -45,10 +63,8 @@ public class EntityClear implements Runnable {
      * @return 区块列表
      */
     public List<Chunk> getLoadChunksList() {
-        ArrayList<Chunk> list = new ArrayList<Chunk>();
-        Bukkit.getWorlds().forEach(world -> {
-            list.addAll(Arrays.asList(world.getLoadedChunks()));
-        });
+        ArrayList<Chunk> list = new ArrayList<>();
+        Bukkit.getWorlds().forEach(world -> list.addAll(Arrays.asList(world.getLoadedChunks())));
         return list;
     }
 
