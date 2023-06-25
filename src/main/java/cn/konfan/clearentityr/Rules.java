@@ -6,6 +6,7 @@ import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
+import java.util.Set;
 
 public class Rules {
 
@@ -50,17 +51,8 @@ public class Rules {
 
         List<String> black = config.getStringList("black");
         List<String> white = config.getStringList("white");
-        ClearEntityR.getInstance().getLogger().info(black.toString());
 
         if (white.contains(saveID.toLowerCase())) {
-            return false;
-        }
-
-        if (white.contains("animals") && entity instanceof Animals) {
-            return false;
-        }
-
-        if (white.contains("monster") && entity instanceof Monster) {
             return false;
         }
 
@@ -68,9 +60,25 @@ public class Rules {
             return true;
         }
 
+
+        // 模组实体不按照以下处理
+        if (config.getBoolean("mode")) {
+            return false;
+        }
+
+        // 通用规则匹配
+        if (white.contains("monster") && entity instanceof Monster) {
+            return false;
+        }
+
+        if (white.contains("animals") && entity instanceof Animals) {
+            return false;
+        }
+
         if (black.contains("animals") && entity instanceof Animals) {
             return true;
         }
+
 
         return black.contains("monster") && entity instanceof Monster;
     }
@@ -92,12 +100,15 @@ public class Rules {
         }
 
 
+        //读取配置文件
+        ConfigurationSection config = getConfig(entity);
+
         // 是否开启掉落物清理
-        if (!ClearEntityR.getInstance().getConfig().getBoolean("Rules.item.enable")) {
+        if (!config.getBoolean("item.enable")) {
             return false;
         }
 
-        //获取物品 注册ID
+        // 获取物品 注册ID
         String itemID = ClearEntityR.Nms.getItemID(itemStack);
 
         // 判断注册ID 是否获取成功
@@ -105,16 +116,73 @@ public class Rules {
             return false;
         }
 
-        //读取配置文件
-        ConfigurationSection config = getConfig(entity);
+        // 获取item节点下全部内容 排除enable
+        Set<String> item = config.getConfigurationSection("item").getKeys(false);
+        item.remove("enable");
 
 
+        // 循环遍历全部节点
+        for (String param : item) {
+
+            ConfigurationSection node = config.getConfigurationSection("item." + param);
+            Set<String> keys = node.getKeys(false);
 
 
+            for (String key : keys) {
+
+                if (key.equals("id") && !itemID.equals(node.getString("id"))) {
+                    return true;
+                }
+
+                if (key.equals("name") && !itemRulesEquals(node.getString("name"), itemStack.getItemMeta().getDisplayName())) {
+                    return true;
+                }
+
+                if (!key.equals("lore")) {
+                    continue;
+                }
+
+                List<String> rulesLore = node.getStringList("lore");
+                List<String> itemLore = itemStack.getItemMeta().getLore();
+                if (itemLore == null) {
+                    return true;
+                }
+
+                for (String lore : rulesLore) {
+
+                    for (int i = 0; i < itemLore.size(); i++) {
+
+                        if (itemRulesEquals(lore, itemLore.get(i))) {
+                            break;
+                        }
+                        if (itemLore.size() - 1 == i) {
+                            return true;
+                        }
+
+                    }
+
+                }
 
 
+            }
 
-        return false;
+
+            return false;
+        }
+
+
+        return true;
+    }
+
+    private static boolean itemRulesEquals(String name, String value) {
+        String param = ClearEntityR.convertColor(name);
+
+        if (name.startsWith("*")) {
+            return name.replace("*", "").contains(value);
+        } else {
+            return name.equals(value);
+        }
+
     }
 
 
