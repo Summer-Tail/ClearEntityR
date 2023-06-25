@@ -92,7 +92,7 @@ public class Rules {
      */
     public static boolean getItemRules(Entity entity) {
 
-        ItemStack itemStack = null;
+        ItemStack itemStack;
         if (entity instanceof Item) {
             itemStack = ((Item) entity).getItemStack();
         } else {
@@ -175,8 +175,6 @@ public class Rules {
     }
 
     private static boolean itemRulesEquals(String name, String value) {
-        String param = ClearEntityR.convertColor(name);
-
         if (name.startsWith("*")) {
             return name.replace("*", "").contains(value);
         } else {
