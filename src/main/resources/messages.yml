@@ -1,0 +1,4 @@
+prefix: "&b[ClearEntity]"
+Clear:
+  beforeInfo: "%prefix% &b服务器娘还有 &e%TIME% &b秒后到达战场"
+  complete: "%prefix% &a哎哟，这次清理了 &c%ITEMCOUNT% &a个垃圾和 &c%COUNT%个 &a怪蜀黍，我感觉自己萌萌哒~"

@@ -16,16 +16,28 @@ Message:
 Rules:
   mode: true      #模组实体不参与 monster 和 animals 的判断匹配
   rename: true    #清理命名实体 （仅对原版实体生效）
+
+  #不匹配任何实体请按照此写法 black: []
   black:          #黑名单
-    - monster
+    - monster     #怪物(最低优先级)
   white:          #白名单
-    - animals
+    - animals     #动物(最低优先级)
   item:           #掉落物
     enable: true  #开启掉落物清理
 
+    #pickaxe:     #节点名(任意)
+      #以下节点按需填写即可，可全部或单独匹配
+      #id: "minecraft:diamond_pickaxe"
+      #name: "钻石镐"             #(*开头为模糊匹配)
+      #lore:
+        #- "不被清理"
+        #- "*这是一个不被清理的物品" #(*开头为模糊匹配)
+
+
+
 #世界独立规则
   custom:
-    world:    #世界名称
+    #world:        #世界名称
       #black:
       #white:
       #item:

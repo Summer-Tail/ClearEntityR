@@ -2,6 +2,7 @@ package cn.konfan.clearentityr;
 
 import cn.konfan.clearentityr.command.Ce;
 import cn.konfan.clearentityr.nms.Nms;
+import cn.konfan.clearentityr.task.ClearTimer;
 import cn.konfan.clearentityr.utils.ItemStackFactory;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -11,6 +12,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.util.logging.Level;
 
 public final class ClearEntityR extends JavaPlugin {
@@ -43,7 +45,13 @@ public final class ClearEntityR extends JavaPlugin {
         Instance = this;
         // Plugin startup logic
         nmsInit();
+
+        if (!(new File(getDataFolder(), "messages.yml").exists())) {
+            saveResource("messages.yml", false);
+        }
         this.saveDefaultConfig();
+
+        Bukkit.getScheduler().runTaskTimerAsynchronously(this, new ClearTimer(), 0L, 20L);
         getCommand("clearentity").setExecutor(new Ce());
 
     }
@@ -60,4 +68,5 @@ public final class ClearEntityR extends JavaPlugin {
     public static String convertColor(String text) {
         return ChatColor.translateAlternateColorCodes('&', text);
     }
+
 }

@@ -29,9 +29,9 @@ public class LanguageConfig {
     }
 
     public static String getString(String path) {
-        String str = "";
+        String str;
         try {
-            str = ClearEntityR.convertColor(Objects.requireNonNull(getLangYaml().getString(path)).replaceAll("%prefix%", ClearEntityR.convertColor(getLangYaml().getString("Other.prefix"))));
+            str = ClearEntityR.convertColor(Objects.requireNonNull(getLangYaml().getString(path)).replaceAll("%prefix%", ClearEntityR.convertColor(getLangYaml().getString("prefix"))));
         } catch (NullPointerException e) {
             throw new RuntimeException("Cannot find " + path + " field in message.yml error:" + e.getMessage());
         }
