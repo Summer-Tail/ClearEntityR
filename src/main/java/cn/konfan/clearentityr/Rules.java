@@ -62,7 +62,7 @@ public class Rules {
 
 
         // 模组实体不按照以下处理
-        if (config.getBoolean("mode")) {
+        if (config.getBoolean("mode") && !saveID.startsWith("minecraft:")) {
             return false;
         }
 
