@@ -2,8 +2,11 @@ package cn.konfan.clearentityr.task;
 
 import cn.konfan.clearentityr.ClearEntityR;
 import cn.konfan.clearentityr.config.LanguageConfig;
+import cn.konfan.clearentityr.utils.BossBarUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 
@@ -67,5 +70,8 @@ public class ClearTimer implements Runnable {
         }
 
         Bukkit.getScheduler().runTaskLater(ClearEntityR.getInstance(), new EntityClear(), maxTime * 20L);
+        if (ClearEntityR.getInstance().getConfig().getBoolean("Message.bossBar")) {
+            new BossBarUtils().sendBossBar("Title", BarColor.RED, BarStyle.SOLID, timeList.get(timeList.size() - 1) + 1);
+        }
     }
 }
