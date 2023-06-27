@@ -23,7 +23,7 @@ public class BossBarUtils implements Runnable {
             bossBar.addPlayer(onlinePlayer);
         }
         this.repeat(time, this, bossBar::removeAll);
-        this.time = (100D / Double.parseDouble(time + "")) * 0.01;
+        this.time = (100D / Double.parseDouble(String.valueOf(time))) * 0.01;
 
     }
 
@@ -33,7 +33,7 @@ public class BossBarUtils implements Runnable {
         seconds--;
         double progress = bossBar.getProgress();
         bossBar.setProgress(progress >= time ? progress - time : 0);
-        bossBar.setTitle(LanguageConfig.getString("Clear.bossBarTitle").replaceAll("%TIME%", "" + seconds));
+        bossBar.setTitle(LanguageConfig.getString("BossBar.Title").replaceAll("%TIME%", String.valueOf(seconds)));
     }
 
 
