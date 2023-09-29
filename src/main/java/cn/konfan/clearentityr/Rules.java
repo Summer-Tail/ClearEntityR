@@ -32,7 +32,7 @@ public class Rules {
         }
 
         // 判断实体上是否有玩家
-        if (entity.getPassengers().size() > 0) {
+        if (!entity.getPassengers().isEmpty()) {
             for (int i = 0; i < entity.getPassengers().size(); i++) {
                 if (entity.getPassengers().get(0) instanceof Player) {
                     return false;
@@ -176,7 +176,7 @@ public class Rules {
 
     private static boolean itemRulesEquals(String name, String value) {
         if (name.startsWith("*")) {
-            return name.replace("*", "").contains(value);
+            return value.contains(name.replace("*", ""));
         } else {
             return name.equals(value);
         }

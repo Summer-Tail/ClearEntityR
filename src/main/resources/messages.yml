@@ -5,7 +5,8 @@ Clear:
   complete: "%prefix% &a哎哟，这次清理了 &c%ITEMCOUNT% &a个垃圾和 &c%COUNT%个 &a怪蜀黍，我感觉自己萌萌哒~"
 BossBar:
   Title: "%prefix% &a实体和掉落物将在 &e%TIME%秒 &a后清除"
-
+TrashCan:
+  title: "%prefix% &a垃圾箱 第 &e%PAGE% &a页"
 
 
 

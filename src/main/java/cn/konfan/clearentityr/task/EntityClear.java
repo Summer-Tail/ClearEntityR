@@ -48,11 +48,9 @@ public class EntityClear implements Runnable {
 
         for (int i = Math.min(clearList.size() - 1, num); i >= 0; i--) {
             for (Entity entity : clearList.get(i).getEntities()) {
-                if (entity instanceof Item) {
-                    if (Rules.getItemRules(entity)) {
+                if (entity instanceof Item && Rules.getItemRules(entity)) {
                         entity.remove();
                         clearItemNum++;
-                    }
                 } else if (Rules.getEntityRules(entity)) {
                     entity.remove();
                     clearEntityNum++;
@@ -60,7 +58,7 @@ public class EntityClear implements Runnable {
             }
             clearList.remove(i);
         }
-        if (clearList.size() != 0) {
+        if (!clearList.isEmpty()) {
             Bukkit.getScheduler().runTaskLater(ClearEntityR.getInstance(), new EntityClear(clearList, clearEntityNum, clearItemNum), 2L);
         } else {
             Bukkit.getServer().broadcastMessage(LanguageConfig.getString("Clear.complete")

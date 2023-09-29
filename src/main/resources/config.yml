@@ -24,6 +24,8 @@ Rules:
     - animals     #动物(最低优先级)
   item:           #掉落物
     enable: true  #开启掉落物清理
+    quickShop:
+      lore: "*quickshop"
 
     #pickaxe:     #节点名(任意)
       #以下节点按需填写即可，可全部或单独匹配
